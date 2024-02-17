@@ -1,0 +1,21 @@
+{
+  "name": "zombieplus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "headed": "npx playwright test --headed",
+    "debug": "npx playwright test --debug",
+    "headless": "npx playwright test",
+    "ui": "npx playwright test --ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.9.0",
+    "pg": "^8.11.3"
+  }
+}
