@@ -1,14 +1,17 @@
+require('dotenv').config()
+
 const { expect } = require('@playwright/test')
 
 export class Api {
 
     constructor(request) {
+        this.baseApi = process.env.BASE_API
         this.request = request
         this.token = undefined
     }
 
     async sessionToken() {
-        const responseToken = await this.request.post('http://localhost:3333/sessions', {
+        const responseToken = await this.request.post(`${this.baseApi}/sessions`, {
             data: {
                 email: "admin@zombieplus.com",
                 password: "pwd123"
@@ -26,7 +29,7 @@ export class Api {
 
         const companyId = await this.getCompanyIdByName(movie.company)
 
-        const responseMovie = await this.request.post('http://localhost:3333/movies', {
+        const responseMovie = await this.request.post(`${this.baseApi}/movies`, {
             headers: {
                 Authorization: 'Bearer ' + this.token,
                 ContentType: 'multipart/form-data',
@@ -52,7 +55,7 @@ export class Api {
 
         const companyId = await this.getCompanyIdByName(tvshow.company)
 
-        const responseTvshow = await this.request.post('http://localhost:3333/tvshows', {
+        const responseTvshow = await this.request.post(`${this.baseApi}/tvshows`, {
             headers: {
                 Authorization: 'Bearer ' + this.token,
                 ContentType: 'multipart/form-data',
@@ -77,7 +80,7 @@ export class Api {
 
     async getCompanyIdByName(companyName) {
 
-        const responseCompany = await this.request.get('http://localhost:3333/companies?name=' + companyName, {
+        const responseCompany = await this.request.get(`${this.baseApi}/companies?name=` + companyName, {
             headers: {
                 Authorization: 'Bearer ' + this.token,
                 ContentType: 'application/json'

@@ -1,11 +1,13 @@
+require('dotenv').config()
+
 const { Pool } = require('pg')
 
 const DbConfig = {
-    user: 'jxvuegzw',
-    host: 'chunee.db.elephantsql.com',
-    database: 'jxvuegzw',
-    password: 'WnPDsfnZfv0TwFU0AYy8UMbYT987VKaF',
-    port: 5432
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    port: process.env.DB_PORT
 }
 
 
