@@ -1,6 +1,6 @@
 const { expect } = require('@playwright/test');
 
-export class LandingPage {
+export class Leads {
 
     constructor(page) {
         this.page = page
@@ -41,5 +41,29 @@ export class LandingPage {
     async validateAlert(message) {
         const alert = await this.page.locator('.alert')
         await expect(alert).toHaveText(message);
+    }
+
+    async goToLeads() {
+        await this.page.locator('a[href$=leads]').click()
+    }
+
+    async searchLead(leadEmail) {
+        await this.page.getByPlaceholder('Busque pelo email').fill(leadEmail)
+        await this.page.locator('.actions form button').click()
+    }
+
+    async deleteLead(leadEmail) {
+        await this.page.getByRole('row', { name: leadEmail }).getByRole('button').click()
+        await this.page.locator('.confirm-removal').click()
+    }
+
+    async validateLeadInList(leadEmail) {
+        const lead = await this.page.getByRole('row', { name: leadEmail })
+        await expect(lead).toBeVisible()
+    }
+
+    async validadeLeadNotFound() {
+        const message = await this.page.locator('span')
+        await expect(message).toHaveText('Nenhum lead encontrado!')
     }
 }

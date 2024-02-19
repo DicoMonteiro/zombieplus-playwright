@@ -1,19 +1,30 @@
 const { test: base, expect } = require('@playwright/test')
 
-const { LandingPage } = require('../pages/LandingPage');
-const { LoginPage } = require('../pages/LoginPage')
-const { MoviesPage } = require('../pages/MoviesPage')
-const { Toast } = require('../components/Toast')
+const { Leads } = require('./actions/Leads');
+const { Login } = require('./actions/Login')
+const { Movies } = require('./actions/Movies')
+const { Tvshows } = require('./actions/Tvshows')
+const { Popup } = require('./components/Popup')
+const { Api } = require('./services/index')
 
 const test = base.extend({
     page: async ({page}, use) => {
-        await use({
-            ...page,
-            landingPage: new LandingPage(page),
-            toast: new Toast(page),
-            loginPage: new LoginPage(page),
-            moviesPage: new MoviesPage(page)
-        })
+
+        page['leads'] = new Leads(page)
+        page['popup'] = new Popup(page)
+        page['login'] = new Login(page)
+        page['movies'] = new Movies(page)
+        page['tvshows'] = new Tvshows(page)
+
+        await use(page)
+    },
+    request: async ({request}, use) => {
+
+        request['api'] = new Api(request)
+
+        await request['api'].sessionToken()
+
+        await use(request)
     }
 })
 
